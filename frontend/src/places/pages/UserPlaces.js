@@ -10,8 +10,8 @@ const DUMMY_PLACES = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/399px-Empire_State_Building_%28aerial_view%29.jpg',
     address: '20 W 34th St, New York, NY 10001',
     location: {
-      lat: 49.7484405,
-      lng: -73.9878584,
+      lat: 40.7487658,
+      lng: -73.9879135,
     },
     creator: 'u1',
   },
@@ -23,8 +23,8 @@ const DUMMY_PLACES = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/399px-Empire_State_Building_%28aerial_view%29.jpg',
     address: '20 W 34th St, New York, NY 10001',
     location: {
-      lat: 49.7484405,
-      lng: -73.9878584,
+      lat: 40.7487658,
+      lng: -73.9879135,
     },
     creator: 'u2',
   },
