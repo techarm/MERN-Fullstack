@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
@@ -39,26 +40,66 @@ const DUMMY_PLACES = [
 ];
 
 const UpdatePlace = () => {
+  // const [formState, inputHandler, setFormData] = useForm(
+  //   {
+  //     title: {
+  //       value: identifiedPlace.title,
+  //       isValid: true,
+  //     },
+  //     description: {
+  //       value: identifiedPlace.description,
+  //       isValid: true,
+  //     },
+  //     address: {
+  //       value: identifiedPlace.address,
+  //       isValid: true,
+  //     },
+  //   },
+  //   true
+  // );
+  const [isLoading, setLoading] = useState(true);
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false,
+      },
+      description: {
+        value: '',
+        isValid: false,
+      },
+      address: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false
+  );
+
   const placeId = useParams().placeId;
   const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
 
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: identifiedPlace.title,
-        isValid: true,
+  useEffect(() => {
+    setFormData(
+      {
+        title: {
+          value: identifiedPlace.title,
+          isValid: true,
+        },
+        description: {
+          value: identifiedPlace.description,
+          isValid: true,
+        },
+        address: {
+          value: identifiedPlace.address,
+          isValid: true,
+        },
       },
-      description: {
-        value: identifiedPlace.description,
-        isValid: true,
-      },
-      address: {
-        value: identifiedPlace.address,
-        isValid: true,
-      },
-    },
-    true
-  );
+      true
+    );
+    setLoading(false);
+  }, [setFormData, identifiedPlace]);
 
   if (!identifiedPlace) {
     return (
@@ -72,6 +113,14 @@ const UpdatePlace = () => {
     event.preventDefault();
     console.log(formState.inputs); // send this to the backend
   };
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
 
   return (
     <form className="place-form" onSubmit={placeSubmitHandler}>
