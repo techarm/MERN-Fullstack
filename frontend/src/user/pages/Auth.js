@@ -8,9 +8,11 @@ import {
   VALIDATOR_REQUIRE,
 } from '../../shared/util/validators';
 import './Auth.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../shared/context/auth-context';
 
 const Auth = () => {
+  const authContext = useContext(AuthContext);
   const [isLoginMode, setLoginMode] = useState(true);
 
   const [formState, inputHandler, setFormData] = useForm(
@@ -30,6 +32,7 @@ const Auth = () => {
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
+    authContext.login();
   };
 
   const switchModeHandler = () => {
