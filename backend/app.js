@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -28,9 +29,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(
-    'mongodb://dev:dev123@localhost:27017/mern?authMechanism=DEFAULT&authSource=mern'
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     app.listen(3001);
   })
