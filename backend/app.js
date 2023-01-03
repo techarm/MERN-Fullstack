@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const placeRoutes = require('./routes/places-routes');
 const userRoutes = require('./routes/users-routes');
@@ -26,4 +27,13 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error occurred!' });
 });
 
-app.listen(3001);
+mongoose
+  .connect(
+    'mongodb://dev:dev123@localhost:27017/mern?authMechanism=DEFAULT&authSource=mern'
+  )
+  .then(() => {
+    app.listen(3001);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
