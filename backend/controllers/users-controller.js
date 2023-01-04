@@ -79,14 +79,13 @@ const login = async (req, res, next) => {
         )
       );
     }
+    res.status(200).json({ user: identifiedUser.toObject({ getters: true }) });
   } catch (err) {
     console.err(`signup - findOne error: ${err}`);
     return next(
       new HttpError('Signing up failed, please try again later', 500)
     );
   }
-
-  res.status(200).json({ message: 'Logged in.' });
 };
 
 module.exports = {

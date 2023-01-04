@@ -6,7 +6,7 @@ import UsersList from '../components/UsersList';
 
 const Users = () => {
   const [loadedUsers, setLoadedUsers] = useState();
-  const { isLoading, error, sendRequest, clearnError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   useEffect(() => {
     sendRequest('http://localhost:3001/api/users').then((responseData) =>
@@ -16,7 +16,7 @@ const Users = () => {
 
   return (
     <>
-      <ErrorModal error={error} onClear={clearnError} />
+      <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner asOverlay />

@@ -38,30 +38,37 @@ const Auth = () => {
 
     try {
       if (isLoginMode) {
-        await sendRequest('http://localhost:3001/api/users/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
+        const responseData = await sendRequest(
+          'http://localhost:3001/api/users/login',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: formState.inputs.email.value,
+              password: formState.inputs.password.value,
+            }),
+          }
+        );
+        authContext.login(responseData.user.id);
       } else {
-        await sendRequest('http://localhost:3001/api/users/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
+        const responseData = await sendRequest(
+          'http://localhost:3001/api/users/signup',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: formState.inputs.name.value,
+              email: formState.inputs.email.value,
+              password: formState.inputs.password.value,
+            }),
+          }
+        );
+        authContext.login(responseData.user.id);
       }
-      authContext.login();
     } catch (err) {
       // console.log(err);
     }
@@ -123,7 +130,7 @@ const Auth = () => {
             type="password"
             label="Password"
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Please enter a valid email password, at least 5 characters."
+            errorText="Please enter a valid email password, at least 6 characters."
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>

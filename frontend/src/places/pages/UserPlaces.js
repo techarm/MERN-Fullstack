@@ -1,39 +1,43 @@
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 import PlaceList from '../components/PlaceList';
 
-const DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'Empire State Building',
-    description: 'One of the most famous sky scrapers in the world!',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/399px-Empire_State_Building_%28aerial_view%29.jpg',
-    address: '20 W 34th St, New York, NY 10001',
-    location: {
-      lat: 40.7487658,
-      lng: -73.9879135,
-    },
-    creator: 'u1',
-  },
-  {
-    id: 'p2',
-    title: 'Empire State Building 2',
-    description: 'One of the most famous sky scrapers in the world!',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/399px-Empire_State_Building_%28aerial_view%29.jpg',
-    address: '20 W 34th St, New York, NY 10001',
-    location: {
-      lat: 40.7487658,
-      lng: -73.9879135,
-    },
-    creator: 'u2',
-  },
-];
-
 const UserPlaces = () => {
+  const [loadedPlaces, setLoadedPlaces] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
   const userId = useParams().userId;
-  const loadedPlaces = DUMMY_PLACES.filter((place) => place.creator === userId);
-  return <PlaceList items={loadedPlaces} />;
+
+  useEffect(() => {
+    sendRequest(`http://localhost:3001/api/places/user/${userId}`).then(
+      (responseData) => {
+        setLoadedPlaces(responseData.places);
+      }
+    );
+  }, [sendRequest, userId]);
+
+  const onDeletePlaceHandler = (deeltePlaceId) => {
+    setLoadedPlaces((prevPlaces) =>
+      prevPlaces.filter((place) => place.id !== deeltePlaceId)
+    );
+  };
+
+  return (
+    <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDeletePlace={onDeletePlaceHandler} />
+      )}
+    </>
+  );
 };
 
 export default UserPlaces;
