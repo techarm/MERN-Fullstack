@@ -13,6 +13,7 @@ import {
 import './Auth.css';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../shared/context/auth-context';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const Auth = () => {
   const authContext = useContext(AuthContext);
@@ -35,6 +36,7 @@ const Auth = () => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log(formState);
 
     try {
       if (isLoginMode) {
@@ -78,7 +80,7 @@ const Auth = () => {
     // Swithc SINGUP mode to LOGIN mode
     if (!isLoginMode) {
       setFormData(
-        { ...formState.inputs, name: undefined },
+        { ...formState.inputs, name: undefined, image: undefined },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
     } else {
@@ -86,6 +88,10 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: {
+            value: '',
+            isValid: false,
+          },
+          image: {
             value: '',
             isValid: false,
           },
@@ -105,15 +111,18 @@ const Auth = () => {
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
-            <Input
-              element="input"
-              id="name"
-              type="text"
-              label="Your Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a name."
-              onInput={inputHandler}
-            />
+            <>
+              <Input
+                element="input"
+                id="name"
+                type="text"
+                label="Your Name"
+                validators={[VALIDATOR_REQUIRE()]}
+                errorText="Please enter a name."
+                onInput={inputHandler}
+              />
+              <ImageUpload id="image" center onInput={inputHandler} />
+            </>
           )}
           <Input
             element="input"
