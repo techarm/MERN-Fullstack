@@ -12,6 +12,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const NewPlace = () => {
   const authContext = useContext(AuthContext);
@@ -23,6 +24,10 @@ const NewPlace = () => {
         isValid: false,
       },
       description: {
+        value: '',
+        isValid: false,
+      },
+      image: {
         value: '',
         isValid: false,
       },
@@ -38,17 +43,16 @@ const NewPlace = () => {
   const placeSubmitHandler = (event) => {
     event.preventDefault();
 
+    const formData = new FormData();
+    formData.append('title', formState.inputs.title.value);
+    formData.append('description', formState.inputs.description.value);
+    formData.append('image', formState.inputs.image.value);
+    formData.append('address', formState.inputs.address.value);
+    formData.append('creator', authContext.userId);
+
     sendRequest('http://localhost:3001/api/places', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: formState.inputs.title.value,
-        description: formState.inputs.description.value,
-        address: formState.inputs.address.value,
-        creator: authContext.userId,
-      }),
+      body: formData,
     }).then((responseData) => {
       console.log(responseData);
       history.push('/');
@@ -74,6 +78,11 @@ const NewPlace = () => {
           label="Description"
           validators={[VALIDATOR_MINLENGTH(5)]}
           errorText="Please enter a valid description (at least 5 characters)."
+          onInput={inputHandler}
+        />
+        <ImageUpload
+          id="image"
+          errorText="Please pick an image."
           onInput={inputHandler}
         />
         <Input

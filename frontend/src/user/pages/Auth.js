@@ -119,7 +119,12 @@ const Auth = () => {
                 errorText="Please enter a name."
                 onInput={inputHandler}
               />
-              <ImageUpload id="image" center onInput={inputHandler} />
+              <ImageUpload
+                id="image"
+                center
+                onInput={inputHandler}
+                errorText="Please pick an image."
+              />
             </>
           )}
           <Input
