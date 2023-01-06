@@ -36,7 +36,6 @@ const Auth = () => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState);
 
     try {
       if (isLoginMode) {
@@ -55,18 +54,17 @@ const Auth = () => {
         );
         authContext.login(responseData.user.id);
       } else {
+        const formData = new FormData();
+        formData.append('name', formState.inputs.name.value);
+        formData.append('email', formState.inputs.email.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
+
         const responseData = await sendRequest(
           'http://localhost:3001/api/users/signup',
           {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              name: formState.inputs.name.value,
-              email: formState.inputs.email.value,
-              password: formState.inputs.password.value,
-            }),
+            body: formData,
           }
         );
         authContext.login(responseData.user.id);
