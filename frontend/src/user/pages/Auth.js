@@ -52,7 +52,7 @@ const Auth = () => {
             }),
           }
         );
-        authContext.login(responseData.user.id);
+        authContext.login(responseData.userId, responseData.token);
       } else {
         const formData = new FormData();
         formData.append('name', formState.inputs.name.value);
@@ -67,7 +67,7 @@ const Auth = () => {
             body: formData,
           }
         );
-        authContext.login(responseData.user.id);
+        authContext.login(responseData.userId, responseData.token);
       }
     } catch (err) {
       // console.log(err);

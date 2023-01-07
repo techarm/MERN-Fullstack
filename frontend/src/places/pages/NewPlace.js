@@ -52,6 +52,9 @@ const NewPlace = () => {
 
     sendRequest('http://localhost:3001/api/places', {
       method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + authContext.token,
+      },
       body: formData,
     }).then((responseData) => {
       console.log(responseData);
