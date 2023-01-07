@@ -6,6 +6,7 @@ const HttpError = require('../models/http-error');
 const getCoordsForAddress = require('../utils/location');
 const Place = require('../models/place');
 const User = require('../models/user');
+const place = require('../models/place');
 
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid; // {pid: "p1"}
@@ -135,6 +136,14 @@ const updatePlace = async (req, res, next) => {
     );
   }
 
+  if (updatedPlace.creator.toString() !== req.userData.userId) {
+    const error = new HttpError(
+      'Your are not allowed to edit this place.',
+      401
+    );
+    return next(error);
+  }
+
   updatedPlace.title = title;
   updatedPlace.description = description;
 
@@ -165,6 +174,14 @@ const deletePlace = async (req, res, next) => {
 
   if (!place) {
     return next(new HttpError('Could not find place for this id.', 404));
+  }
+
+  if (place.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      'Your are not allowed to edit this place.',
+      401
+    );
+    return next(error);
   }
 
   try {
