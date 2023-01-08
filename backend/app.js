@@ -51,9 +51,11 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
+  )
   .then(() => {
-    app.listen(3001);
+    app.listen(process.env.SERVER_PORT);
   })
   .catch((err) => {
     console.log(err);

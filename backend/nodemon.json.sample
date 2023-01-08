@@ -1,0 +1,11 @@
+{
+  "env": {
+    "SERVER_PORT": 3001,
+    "DB_HOST": "localhost",
+    "DB_USER": "dev",
+    "DB_PASSWORD": "password",
+    "DB_NAME": "mern",
+    "GOOGLE_API_KEY": "YOUR_GOOGLE_API_KEY",
+    "JWT_TOKEN_SECRET_KEY": "super-secret-jwt-key"
+  }
+}
