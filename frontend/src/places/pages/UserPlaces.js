@@ -12,11 +12,11 @@ const UserPlaces = () => {
   const userId = useParams().userId;
 
   useEffect(() => {
-    sendRequest(`http://localhost:3001/api/places/user/${userId}`).then(
-      (responseData) => {
-        setLoadedPlaces(responseData.places);
-      }
-    );
+    sendRequest(
+      `${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`
+    ).then((responseData) => {
+      setLoadedPlaces(responseData.places);
+    });
   }, [sendRequest, userId]);
 
   const onDeletePlaceHandler = (deeltePlaceId) => {

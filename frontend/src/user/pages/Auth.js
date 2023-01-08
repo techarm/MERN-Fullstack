@@ -40,7 +40,7 @@ const Auth = () => {
     try {
       if (isLoginMode) {
         const responseData = await sendRequest(
-          'http://localhost:3001/api/users/login',
+          `${process.env.REACT_APP_BACKEND_URL}/users/login`,
           {
             method: 'POST',
             headers: {
@@ -61,7 +61,7 @@ const Auth = () => {
         formData.append('image', formState.inputs.image.value);
 
         const responseData = await sendRequest(
-          'http://localhost:3001/api/users/signup',
+          `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
           {
             method: 'POST',
             body: formData,

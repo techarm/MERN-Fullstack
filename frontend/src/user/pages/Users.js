@@ -9,8 +9,8 @@ const Users = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   useEffect(() => {
-    sendRequest('http://localhost:3001/api/users').then((responseData) =>
-      setLoadedUsers(responseData.users)
+    sendRequest(`${process.env.REACT_APP_BACKEND_URL}/users`).then(
+      (responseData) => setLoadedUsers(responseData.users)
     );
   }, [sendRequest]);
 
