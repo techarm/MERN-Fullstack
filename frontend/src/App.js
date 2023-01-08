@@ -19,7 +19,7 @@ const Users = React.lazy(() => import('./user/pages/Users'));
 const NewPlace = React.lazy(() => import('./places/pages/NewPlace'));
 const UserPlaces = React.lazy(() => import('./places/pages/UserPlaces'));
 const UpdatePlace = React.lazy(() => import('./places/pages/UpdatePlace'));
-const Auth = React.lazy(() => import('./shared/context/auth-context'));
+const Auth = React.lazy(() => import('./user/pages/Auth'));
 
 const App = () => {
   const {
